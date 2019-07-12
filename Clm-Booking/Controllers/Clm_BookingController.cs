@@ -44,8 +44,8 @@ namespace Clm_Booking.Controllers
                     bookingRepository.AddBooking(client);
                     bookingRepository.Save();
 
-                    ViewBag.Success = "Booking added";
-                }               
+                    ViewBag.Success = "Booking added.";
+                }          
             }
             else
             {
