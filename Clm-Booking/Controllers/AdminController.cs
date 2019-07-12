@@ -69,8 +69,7 @@ namespace Clm_Booking.Controllers
                     }
                     else
                     {
-                        TempData["Msg"] = "Invalid Email or Password";
-                        return RedirectToAction("Login", "Admin");
+                        TempData["Msg"] = "Invalid Email or Password";                        
                     }                   
                 }                
             }           

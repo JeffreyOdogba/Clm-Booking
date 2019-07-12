@@ -13,6 +13,14 @@
             margin-right: .6em;
             color: #9d9d9d;
         }
+
+        a {
+            text-decoration:none;
+        }
+        a:hover{
+            color:cadetblue;
+            text-decoration:none;
+        }
     </style>
 
 }
@@ -22,7 +30,7 @@
     {
         @Html.AntiForgeryToken()
 
-        <div class="container" style="border:0.2rem solid black;">
+        <div class="container">
             <h4>Schedule Appointment</h4>
             <b style="color:darkred;"> @ViewBag.Success </b>
             <hr />

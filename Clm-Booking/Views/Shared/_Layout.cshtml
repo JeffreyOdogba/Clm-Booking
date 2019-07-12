@@ -24,6 +24,13 @@
             color: whitesmoke;
             font-weight: 700;
         }
+
+        a {
+            text-decoration:none;
+        }
+        a:hover{
+            color:cadetblue;
+        }
     </style>
     @RenderSection("css", false)
 </head>
@@ -31,7 +38,7 @@
 
     <nav class="navbar bg-dark">
         <div class="container-fluid">
-            <span class="navbar-brand mb-0 colorWhite" style="font-size:30px; padding: 1.5rem 2rem;">CLM-WORLD</span>
+            <span class="navbar-brand mb-0 colorWhite" style="font-size:30px; padding: 1.5rem 2rem;">@Html.ActionLink("CLM-WORLD", "Index","Clm_Booking", null,null)</span>
 
 
             @if (Session["email"] != null)
