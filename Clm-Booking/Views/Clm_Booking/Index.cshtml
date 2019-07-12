@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Welcome Clm World";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section css{
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        .openhead{
+            padding:6rem;
+            overflow:auto;
+        }
+        .openhead-main{            
+            background-color:cadetblue;
+        }
+        .star-light{            
+            max-width:14rem;
+        }
+    </style>
+}
+
+<header class="openhead-main">
+    <div class="container openhead text-center">
+        <img class="img-fluid mb-5 d-block mx-auto" src="https://www.clmnorthwest.com/images/clm-logo-lg.png" alt="Image Intro" />
+        <h1>CLM BOOKING</h1>
+        <hr class="star-light">
+        @Html.ActionLink("Start Book","Open_Book",null, new { @class="btn btn-primary" })
+    </div>
+</header>
+
+@Html.Partial("~/Views/Shared/_CardsPartial.cshtml")

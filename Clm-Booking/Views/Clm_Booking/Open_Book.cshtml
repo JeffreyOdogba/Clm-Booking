@@ -1,0 +1,122 @@
+﻿@model Clm_Booking.Models.ClientClm
+
+@{
+    ViewBag.Title = "Open Book";
+}
+
+
+@section css{
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        #timepicker:before {
+            content: 'Time: HR:MM: AM/PM';
+            margin-right: .6em;
+            color: #9d9d9d;
+        }
+    </style>
+
+}
+
+<div style="padding:4rem;">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="container" style="border:0.2rem solid black;">
+            <h4>Schedule Appointment</h4>
+            <b style="color:darkred;"> @ViewBag.Success </b>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.firstname, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.firstname, new { htmlAttributes = new { @class = "form-control", placeholder = "First Name" } })
+                    @Html.ValidationMessageFor(model => model.firstname, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.lastname, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.lastname, new { htmlAttributes = new { @class = "form-control", placeholder = "Last Name" } })
+                    @Html.ValidationMessageFor(model => model.lastname, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.bookdate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.bookdate, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                    @Html.ValidationMessageFor(model => model.bookdate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.booktime, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.booktime, new { htmlAttributes = new { @class = "form-control", id = "timepicker",placeholder = "Time" } })
+                    @Html.ValidationMessageFor(model => model.booktime, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email" } })
+                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.phonenumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.phonenumber, new { htmlAttributes = new { @class = "form-control", placeholder = "Phone Number" } })
+                    @Html.ValidationMessageFor(model => model.phonenumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.comments, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.comments, new { @class = "form-control", cols = "3" })
+                    @Html.ValidationMessageFor(model => model.comments, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Book Appointment" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            var timepicked = $('#timepicker').val();
+
+            $('#timepicker').timepicker({
+                'minTime': '9:00am',
+                'maxTime': '7:00pm',
+                'disableTimeRanges': [['1:00pm', '2:30pm']]                
+            });
+
+            //$('#timepicker').select(function(){
+            //    if (timepicked === '1:00pm' || timepicked === '1:30pm' || timepicked === '2:00pm') {
+            //    alert("Cannot pick this time");
+            //}
+            //});
+            
+
+        });
+    </script>
+    
+
+
+}
+
+
+
