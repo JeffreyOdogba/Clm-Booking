@@ -19,7 +19,7 @@ namespace Clm_Booking.Controllers
 
         // GET: Clm_Booking Show Home Page
         public ActionResult Index()
-        {            
+        {
             return View();
         }
 
@@ -31,28 +31,45 @@ namespace Clm_Booking.Controllers
         [HttpPost]
         public ActionResult Open_Book(ClientClm client)
         {
-           
             if (client != null)
             {
-                if (bookingRepository.GetClients().Any(c => c.bookdate == client.bookdate && c.booktime == client.booktime))
+                try
                 {
-                    ViewBag.Success = "Booking Not Availble";
-                }
-                else
-                {
-                    client.status = "Awaiting";
-                    bookingRepository.AddBooking(client);
-                    bookingRepository.Save();
+                    if (bookingRepository.GetClients().Any(c => c.bookdate == client.bookdate && c.booktime == client.booktime))
+                    {
+                        ViewBag.Success = "Oops, Not available";
+                    }
+                    else
+                    {
+                        client.status = "Awaiting";
+                        bookingRepository.AddBooking(client);
+                        bookingRepository.Save();
 
-                    ViewBag.Success = "Booking added.";
-                }          
+                        ViewBag.Success = "Booking added.";
+                    }
+                }
+                catch (Exception)
+                {
+
+                    ViewBag.Success = "Sorry, Can't be empty";
+
+                }
             }
             else
             {
-                ViewBag.Success = "Sorry add an input";
+                ViewBag.Success = "Oops, something is wrong!!! Contact Admin";
+                return RedirectToAction("Open_Book");
             }
-            
             return View();
+
+        }
+
+        [HttpGet]
+        public JsonResult GetAvailableDate()
+        {
+          var dates =  bookingRepository.GetClients().ToList().Select(d => d.bookdate);
+
+            return Json(new { dates }, "text/x-json", JsonRequestBehavior.AllowGet);
         }
     }
 }

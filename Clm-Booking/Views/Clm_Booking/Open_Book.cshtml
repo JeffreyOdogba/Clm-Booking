@@ -6,7 +6,7 @@
 
 
 @section css{
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    
     <style>
         #timepicker:before {
             content: 'Time: HR:MM: AM/PM';
@@ -15,15 +15,18 @@
         }
 
         a {
-            text-decoration:none;
+            text-decoration: none;
         }
-        a:hover{
-            color:cadetblue;
-            text-decoration:none;
-        }
+
+            a:hover {
+                color: cadetblue;
+                text-decoration: none;
+            }
     </style>
 
 }
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 
 <div style="padding:4rem;">
     @using (Html.BeginForm())
@@ -54,7 +57,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.bookdate, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.bookdate, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                    @Html.EditorFor(model => model.bookdate, new { htmlAttributes = new { @class = "form-control dates", placeholder = "Date" } })
                     @Html.ValidationMessageFor(model => model.bookdate, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -62,7 +65,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.booktime, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.booktime, new { htmlAttributes = new { @class = "form-control", id = "timepicker",placeholder = "Time" } })
+                    @Html.EditorFor(model => model.booktime, new { htmlAttributes = new { @class = "form-control", id = "timepicker", placeholder = "Time" } })
                     @Html.ValidationMessageFor(model => model.booktime, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -104,24 +107,41 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
-            var timepicked = $('#timepicker').val();
 
-            $('#timepicker').timepicker({
-                'minTime': '9:00am',
-                'maxTime': '7:00pm',
-                'disableTimeRanges': [['1:00pm', '2:30pm']]                
+            $.get("/Clm_Booking/GetAvailableDate", function (data) {
+                var reservation = data.dates;
+                $('.dates').datepicker({
+                    beforeShowDay: function (date) {
+                        var string = $.datepicker.formatDate('dd-mm-yyyy', date);
+                        return [reservation.indexOf(string) == -1]
+                    }
+            });
             });
 
+            $('.dates').datepicker({
+                    beforeShowDay:$.datepicker.noWeekends
+            });
+
+            $('#timepicker').timepicker({
+                'minTime': '9:30am',
+                'maxTime': '5:00pm',
+                'disableTimeRanges': ['01:00pm', '02:30pm']
+            });
+
+
+            
+
+
             //$('#timepicker').select(function(){
-            //    if (timepicked === '1:00pm' || timepicked === '1:30pm' || timepicked === '2:00pm') {
+            //    if (timepicked === '01:00pm' || timepicked === '01:30pm' || timepicked === '02:00pm') {
             //    alert("Cannot pick this time");
             //}
             //});
-            
+
 
         });
     </script>
-    
+
 
 
 }
