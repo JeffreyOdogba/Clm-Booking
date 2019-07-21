@@ -1,9 +1,11 @@
 ﻿using Clm_Booking.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace Clm_Booking.Controllers
 {
@@ -69,7 +71,8 @@ namespace Clm_Booking.Controllers
         {
           var dates =  bookingRepository.GetClients().ToList().Select(d => d.bookdate);
 
-            return Json(new { dates }, "text/x-json", JsonRequestBehavior.AllowGet);
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            return Json(new { dates = js.Serialize(dates) }, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -22,6 +22,8 @@
                 color: cadetblue;
                 text-decoration: none;
             }
+
+            td.ui-datepicker-week-end { visibility:hidden; }
     </style>
 
 }
@@ -93,7 +95,7 @@
                     @Html.ValidationMessageFor(model => model.comments, "", new { @class = "text-danger" })
                 </div>
             </div>
-
+            
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="Book Appointment" class="btn btn-primary" />
@@ -107,19 +109,61 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
+            var unavailableDate = ["7/12/2019", "7/16/2019", "7/23/2019"];
+            var unavailableDates;
+            var useddate;
 
-            $.get("/Clm_Booking/GetAvailableDate", function (data) {
-                var reservation = data.dates;
-                $('.dates').datepicker({
-                    beforeShowDay: function (date) {
-                        var string = $.datepicker.formatDate('dd-mm-yyyy', date);
-                        return [reservation.indexOf(string) == -1]
+
+            $.get("@Url.Action("GetAvailableDate","Clm_Booking")", function (data) {
+                l = data.dates;
+                var result = l.map(a => a);
+              
+                console.log(result);
+                console.log("---------");
+                for (var i = 0; i < result.length; i++) {                  
+                   unavailableDates= ToJavaScriptDate(result[i]);                
+                    
+                    console.log(unavailableDates);
+                }
+
+                function ToJavaScriptDate(date) {
+                    var pattern = /Date\(([^)]+)\)/;
+                    var results = pattern.exec(date);                
+                    var dt = new Date(parseFloat(results[1]));                     
+                    
+                    return [(dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear()];
+                  
+            }
+                
+
+                console.log("After Con-----");
+
+               
+                //console.log(Object.entries(l));
+              
+               
+                //   $.each(l,function (i, obj) { 
+                //    unavailableDates = moment(obj);
+                //       useddate = unavailableDates.format("YYYY/MM/DD");
+                //       return [useddate];
+                //        console.log([useddate]);   
+                //});
+              
+                
+                
+
+               
+
+                 $('.dates').datepicker({
+                        beforeShowDay: function(d) {
+                        dmy = d.getMonth() + 1 + "/" + d.getDate() + "/" + d .getFullYear();
+                        if ($.inArray(dmy, unavailableDates) != -1) {
+                            return [false, "","Available"]; 
+                        } else{
+                             return [true,"","unAvailable"]; 
+                        }
                     }
-            });
-            });
-
-            $('.dates').datepicker({
-                    beforeShowDay:$.datepicker.noWeekends
+                    });
             });
 
             $('#timepicker').timepicker({
@@ -127,19 +171,9 @@
                 'maxTime': '5:00pm',
                 'disableTimeRanges': ['01:00pm', '02:30pm']
             });
-
-
-            
-
-
-            //$('#timepicker').select(function(){
-            //    if (timepicked === '01:00pm' || timepicked === '01:30pm' || timepicked === '02:00pm') {
-            //    alert("Cannot pick this time");
-            //}
-            //});
-
-
+           
         });
+
     </script>
 
 
