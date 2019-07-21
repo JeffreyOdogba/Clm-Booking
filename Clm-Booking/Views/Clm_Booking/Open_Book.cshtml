@@ -115,17 +115,19 @@
 
 
             $.get("@Url.Action("GetAvailableDate","Clm_Booking")", function (data) {
-                l = data.dates;
-                var result = l.map(a => a);
-              
-                console.log(result);
+                // date gotten from the back 
+                date = data.dates;
+                //this is the json format
+                console.log(date);
                 console.log("---------");
-                for (var i = 0; i < result.length; i++) {                  
-                   unavailableDates= ToJavaScriptDate(result[i]);                
+                //loop through all date to format them 
+                for (var i = 0; i < date.length; i++) {                  
+                   unavailableDates= ToJavaScriptDate(date[i]);                
                     
                     console.log(unavailableDates);
                 }
 
+                // This for changing the Data format from Back-side to Client side for Javascript
                 function ToJavaScriptDate(date) {
                     var pattern = /Date\(([^)]+)\)/;
                     var results = pattern.exec(date);                
@@ -133,27 +135,10 @@
                     
                     return [(dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear()];
                   
-            }
-                
+            }                
 
                 console.log("After Con-----");
-
-               
-                //console.log(Object.entries(l));
-              
-               
-                //   $.each(l,function (i, obj) { 
-                //    unavailableDates = moment(obj);
-                //       useddate = unavailableDates.format("YYYY/MM/DD");
-                //       return [useddate];
-                //        console.log([useddate]);   
-                //});
-              
-                
-                
-
-               
-
+                // This is the datepicker with callback function
                  $('.dates').datepicker({
                         beforeShowDay: function(d) {
                         dmy = d.getMonth() + 1 + "/" + d.getDate() + "/" + d .getFullYear();
