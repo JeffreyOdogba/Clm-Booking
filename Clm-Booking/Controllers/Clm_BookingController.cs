@@ -70,9 +70,7 @@ namespace Clm_Booking.Controllers
         public JsonResult GetAvailableDate()
         {
           var dates =  bookingRepository.GetClients().ToList().Select(d => d.bookdate);
-
-            JavaScriptSerializer js = new JavaScriptSerializer();
-            return Json(new { dates = js.Serialize(dates) }, JsonRequestBehavior.AllowGet);
+            return Json(new { dates }, JsonRequestBehavior.AllowGet);
         }
     }
 }

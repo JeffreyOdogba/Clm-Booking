@@ -111,21 +111,23 @@
         $(document).ready(function () {
             var unavailableDate = ["7/12/2019", "7/16/2019", "7/23/2019"];
             var unavailableDates;
-            var useddate;
+            var useddate = [];
 
 
             $.get("@Url.Action("GetAvailableDate","Clm_Booking")", function (data) {
                 // date gotten from the back 
-                date = data.dates;
+               var date = data.dates;
+              
                 //this is the json format
                 console.log(date);
                 console.log("---------");
                 //loop through all date to format them 
                 for (var i = 0; i < date.length; i++) {                  
-                    unavailableDates = ToJavaScriptDate(date[i]);  
-
-                    console.log(unavailableDates.split(" "));
+                    unavailableDates = ToJavaScriptDate(date[i]);
+                    console.log(useddate.push(unavailableDates));
                 }
+
+                console.log(typeof(unavailableDates));
 
                 // This for changing the Data format from Back-side to Client side for Javascript
                 function ToJavaScriptDate(date) {
@@ -142,7 +144,7 @@
                  $('.dates').datepicker({
                         beforeShowDay: function(d) {
                         dmy = d.getMonth() + 1 + "/" + d.getDate() + "/" + d .getFullYear();
-                        if ($.inArray(dmy, unavailableDates) != -1) {
+                        if ($.inArray(dmy, useddate) != -1) {
                             return [false, "","Available"]; 
                         } else{
                              return [true,"","unAvailable"]; 
