@@ -72,8 +72,7 @@ namespace Clm_Booking.Controllers
             var dates = from d in bookingRepository.GetClients()
                        where d.status == "Awaiting"
                        select d.bookdate;
-
-         // var dates =  bookingRepository.GetClients().ToList().Select(d => d.bookdate);
+         
             return Json(new { dates }, JsonRequestBehavior.AllowGet);
         }
     }

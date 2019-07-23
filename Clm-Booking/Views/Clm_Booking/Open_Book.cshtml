@@ -14,6 +14,12 @@
             color: #9d9d9d;
         }
 
+        td.Unavailable, table.ui-datepicker-calendar tbody td.Unavailable a {
+      background: none !important;
+      background-color : red !important;
+      color: deeppink !important;
+    }
+
         a {
             text-decoration: none;
         }
@@ -145,9 +151,9 @@
                         beforeShowDay: function(d) {
                         dmy = d.getMonth() + 1 + "/" + d.getDate() + "/" + d .getFullYear();
                         if ($.inArray(dmy, useddate) != -1) {
-                            return [false, "","Available"]; 
+                            return [false, "Unavailable","Unavailable"]; 
                         } else{
-                             return [true,"","unAvailable"]; 
+                             return [true,"","Available"]; 
                         }
                     }
                     });
