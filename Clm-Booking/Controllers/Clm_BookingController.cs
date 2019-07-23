@@ -69,7 +69,11 @@ namespace Clm_Booking.Controllers
         [HttpGet]
         public JsonResult GetAvailableDate()
         {
-          var dates =  bookingRepository.GetClients().ToList().Select(d => d.bookdate);
+            var dates = from d in bookingRepository.GetClients()
+                       where d.status == "Awaiting"
+                       select d.bookdate;
+
+         // var dates =  bookingRepository.GetClients().ToList().Select(d => d.bookdate);
             return Json(new { dates }, JsonRequestBehavior.AllowGet);
         }
     }
