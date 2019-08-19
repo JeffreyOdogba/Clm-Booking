@@ -75,5 +75,16 @@ namespace Clm_Booking.Controllers
          
             return Json(new { dates }, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public JsonResult GetAllTime()
+        {
+            var times = from d in bookingRepository.GetClients()
+                        select d.booktime;
+
+            ViewBag.times = times;
+
+            return Json(new { times }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

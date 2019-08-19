@@ -6,7 +6,7 @@
 
 
 @section css{
-    
+
     <style>
         #timepicker:before {
             content: 'Time: HR:MM: AM/PM';
@@ -15,10 +15,10 @@
         }
 
         td.Unavailable, table.ui-datepicker-calendar tbody td.Unavailable a {
-      background: none !important;
-      background-color : red !important;
-      color: deeppink !important;
-    }
+            background: none !important;
+            background-color: red !important;
+            color: deeppink !important;
+        }
 
         a {
             text-decoration: none;
@@ -29,7 +29,9 @@
                 text-decoration: none;
             }
 
-            td.ui-datepicker-week-end { visibility:hidden; }
+        td.ui-datepicker-week-end {
+            visibility: hidden;
+        }
     </style>
 
 }
@@ -101,13 +103,23 @@
                     @Html.ValidationMessageFor(model => model.comments, "", new { @class = "text-danger" })
                 </div>
             </div>
-            
+
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="Book Appointment" class="btn btn-primary" />
                 </div>
             </div>
         </div>
+
+        <div class="form-group">
+            <p class="control-label timing col-md-2"> Time</p>
+            <div class="col-md-10">
+                <select id="time-select"></select>
+            </div>
+        </div>
+
+        <p class="showtime"></p>
+
     }
 
 </div>
@@ -115,56 +127,117 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
-            var unavailableDate = ["7/12/2019", "7/16/2019", "7/23/2019"];
+            var breakTime = ["01:00", "02:00"];
             var unavailableDates;
             var useddate = [];
+            var selectedDate;
 
 
-            $.get("@Url.Action("GetAvailableDate","Clm_Booking")", function (data) {
-                // date gotten from the back 
-               var date = data.dates;
-              
-                //this is the json format
-                console.log(date);
-                console.log("---------");
-                //loop through all date to format them 
-                for (var i = 0; i < date.length; i++) {                  
+            $.get("@Url.Action("GetAvailableDate", "Clm_Booking")", function (data) {
+                // date gotten from the back
+                var date = data.dates;
+                 selectedDate = $(".dates").select().val();
+                //console.log(selectedDate);
+
+                //loop through all date to format them
+                for (var i = 0; i < date.length; i++) {
                     unavailableDates = ToJavaScriptDate(date[i]);
-                    console.log(useddate.push(unavailableDates));
-                }
-
-                console.log(typeof(unavailableDates));
+                    //console.log(unavailableDates);    
+                    
+                    if (selectedDate == unavailableDates) {
+                        console.log("Date not available" + " " +unavailableDates);
+                    }
+                }                
 
                 // This for changing the Data format from Back-side to Client side for Javascript
                 function ToJavaScriptDate(date) {
                     var pattern = /Date\(([^)]+)\)/;
-                    var results = pattern.exec(date);                
-                    var dt = new Date(parseFloat(results[1]));                     
-                    
-                    return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear();
-                  
-            }                
+                    var results = pattern.exec(date);
+                    var dt = new Date(parseFloat(results[1]));
 
-                console.log("After Con-----");
+                    return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear();
+                }
+
                 // This is the datepicker with callback function
-                 $('.dates').datepicker({
-                        beforeShowDay: function(d) {
-                        dmy = d.getMonth() + 1 + "/" + d.getDate() + "/" + d .getFullYear();
-                        if ($.inArray(dmy, useddate) != -1) {
-                            return [false, "Unavailable","Unavailable"]; 
-                        } else{
-                             return [true,"","Available"]; 
-                        }
-                    }
-                    });
+                 $('.dates').datepicker();
             });
+
+
+            // Time Functions
+
+            function ToJavaScriptTime(time) {
+                    var pattern = /Date\(([^)]+)\)/;
+                    var results = pattern.exec(time);
+                    var dt = new Date(parseFloat(results[1]));
+
+                return (dt.toTimeString());
+
+            }
+
+
+            var timees = "(@ViewBag.times)"; 
+
+            console.log("from ViewBag" + timees);
+
+            $.get("@Url.Action("GetAllTime","Clm_Booking")", function (times) {
+                var time = times.times;
+
+
+                for (var i = 0; i < time.length; i++) {
+                  var unavailableTime = ToJavaScriptTime(time[i]);
+                    console.log(unavailableTime);
+                }
+
+                $(".showtime").append(time);
+            });
+
+            
+            var workingTime = ["9:30", "10:00", "10:30", "11:00", "11:30", "12:00","12:30","1:00","3:00","3:30","4:00","4:30","5:00"];
+            var bookedTime = ["9:30", "1:00"];
+
+            function arr_diff(a1, a2) {
+
+                var a = [], diff = [];
+
+                for (var i = 0; i < a1.length; i++) {
+                    a[a1[i]] = true;
+                }
+
+                for (var i = 0; i < a2.length; i++) {
+                    if (a[a2[i]]) {
+                        delete a[a2[i]];
+                    } else {
+                        a[a2[i]] = true;
+                    }
+                }
+
+                for (var k in a) {
+                    diff.push(k);
+                }
+
+                return diff;
+            }
+
+            function appendOptions(time) {
+                for (var i = 0; i < time.length; i++) {
+                    var timeText = document.createTextNode(time[i]);
+                    var option = document.createElement("option");
+                    var select = document.getElementById("time-select");
+                    option.appendChild(timeText);
+                    select.appendChild(option);
+                }
+            }
+
+            const availableTime = arr_diff(workingTime, bookedTime);
+            appendOptions(availableTime);
+            // End of Time Functioin
 
             $('#timepicker').timepicker({
                 'minTime': '9:30am',
                 'maxTime': '5:00pm',
-                'disableTimeRanges': ['01:00pm', '02:30pm']
+               // 'disableTimeRanges': [breakTime]
             });
-           
+
         });
 
     </script>
