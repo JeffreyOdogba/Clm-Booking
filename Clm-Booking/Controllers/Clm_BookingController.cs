@@ -13,7 +13,7 @@ namespace Clm_Booking.Controllers
     {
         private IBookingRepository bookingRepository;
         private ClmEntity db = new ClmEntity();
-
+        
         public Clm_BookingController()
         {
             bookingRepository = new BookRepository(new ClmEntity());
@@ -75,16 +75,22 @@ namespace Clm_Booking.Controllers
          
             return Json(new { dates }, JsonRequestBehavior.AllowGet);
         }
+        [HttpGet]
+        public JsonResult GetAllTime(DateTime? datetime)
+        {          
+            var times = from d in bookingRepository.GetClients()
+                        where d.bookdate == datetime
+                        select d.booktime;
+            TempData["time"] = times;
+            return Json(times, JsonRequestBehavior.AllowGet);
+        }
 
         [HttpGet]
-        public JsonResult GetAllTime()
+        public ActionResult GetAllTimes()
         {
-            var times = from d in bookingRepository.GetClients()
-                        select d.booktime;
+            var time = TempData["time"];
 
-            ViewBag.times = times;
-
-            return Json(new { times }, JsonRequestBehavior.AllowGet);
+            return Json(new { time }, JsonRequestBehavior.AllowGet);
         }
     }
 }

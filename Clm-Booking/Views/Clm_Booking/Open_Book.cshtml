@@ -129,25 +129,25 @@
         $(document).ready(function () {
             var breakTime = ["01:00", "02:00"];
             var unavailableDates;
+            var unavailableTime = [];
             var useddate = [];
             var selectedDate;
 
-
-            $.get("@Url.Action("GetAvailableDate", "Clm_Booking")", function (data) {
+            @*$.post("@Url.Action("GetAvailableDate", "Clm_Booking")", function (data) {
                 // date gotten from the back
                 var date = data.dates;
-                 selectedDate = $(".dates").select().val();
+                selectedDate = $(".dates").change();
                 //console.log(selectedDate);
 
                 //loop through all date to format them
                 for (var i = 0; i < date.length; i++) {
                     unavailableDates = ToJavaScriptDate(date[i]);
-                    //console.log(unavailableDates);    
-                    
+                    //console.log(unavailableDates);
+
                     if (selectedDate == unavailableDates) {
                         console.log("Date not available" + " " +unavailableDates);
                     }
-                }                
+                }
 
                 // This for changing the Data format from Back-side to Client side for Javascript
                 function ToJavaScriptDate(date) {
@@ -160,7 +160,30 @@
 
                 // This is the datepicker with callback function
                  $('.dates').datepicker();
-            });
+            });*@
+
+
+
+        $(".dates").datepicker({ dateFormat: 'yy-mm-dd' })
+                      .on("change", function() {
+                          // get date value
+                          var datetime = $(".dates").datepicker().val();
+                          console.log(datetime + " datetime ");
+                          $.get("@Url.Action("GetAllTime","Clm_Booking")", { datetime: datetime });
+
+                          //console.log(datetime.times + " returned time ");
+
+                          $.get("@Url.Action("GetAllTimes","Clm_Booking")", function (data) {
+
+                                  var time = data.time;
+                                  console.log(time + " times booked");
+
+                                  for (var i = 0; i < time.length; i++) {
+                                      unavailableTime.push(ToJavaScriptTime(time[i]).slice(0, 5).toString());
+                                      showAvailableTime(unavailableTime);
+                                  }
+                                });
+                      });
 
 
             // Time Functions
@@ -175,25 +198,10 @@
             }
 
 
-            var timees = "(@ViewBag.times)"; 
-
-            console.log("from ViewBag" + timees);
-
-            $.get("@Url.Action("GetAllTime","Clm_Booking")", function (times) {
-                var time = times.times;
 
 
-                for (var i = 0; i < time.length; i++) {
-                  var unavailableTime = ToJavaScriptTime(time[i]);
-                    console.log(unavailableTime);
-                }
 
-                $(".showtime").append(time);
-            });
-
-            
-            var workingTime = ["9:30", "10:00", "10:30", "11:00", "11:30", "12:00","12:30","1:00","3:00","3:30","4:00","4:30","5:00"];
-            var bookedTime = ["9:30", "1:00"];
+            var workingTime = ["09:30", "10:00", "10:30", "11:00", "11:30", "12:00","12:30","01:00","03:00","03:30","04:00","04:30","05:00"];
 
             function arr_diff(a1, a2) {
 
@@ -218,25 +226,24 @@
                 return diff;
             }
 
+            var select = document.getElementById("time-select");
+
             function appendOptions(time) {
+                select.innerHTML = "";
                 for (var i = 0; i < time.length; i++) {
-                    var timeText = document.createTextNode(time[i]);
+                    let timeText = document.createTextNode(time[i]);
                     var option = document.createElement("option");
-                    var select = document.getElementById("time-select");
                     option.appendChild(timeText);
                     select.appendChild(option);
                 }
             }
 
-            const availableTime = arr_diff(workingTime, bookedTime);
-            appendOptions(availableTime);
-            // End of Time Functioin
+            function showAvailableTime(bookedTime) {
+                const workingTimeCopy = [...workingTime];
+                const availableTime = arr_diff(workingTimeCopy, bookedTime);
+                appendOptions(availableTime);
+            }
 
-            $('#timepicker').timepicker({
-                'minTime': '9:30am',
-                'maxTime': '5:00pm',
-               // 'disableTimeRanges': [breakTime]
-            });
 
         });
 
