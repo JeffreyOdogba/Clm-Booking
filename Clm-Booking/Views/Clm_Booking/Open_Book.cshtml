@@ -32,6 +32,15 @@
         td.ui-datepicker-week-end {
             visibility: hidden;
         }
+        /*.time-size{
+            width:20%;
+            height:calc(1.3em + .75rem + 2px);
+            border-radius:3px;
+            padding:.375rem .75rem;
+            display:block;
+            border-radius: .25rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }*/
     </style>
 
 }
@@ -43,83 +52,80 @@
     {
         @Html.AntiForgeryToken()
 
-        <div class="container">
-            <h4>Schedule Appointment</h4>
-            <b style="color:darkred;"> @ViewBag.Success </b>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(model => model.firstname, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.firstname, new { htmlAttributes = new { @class = "form-control", placeholder = "First Name" } })
-                    @Html.ValidationMessageFor(model => model.firstname, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.lastname, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.lastname, new { htmlAttributes = new { @class = "form-control", placeholder = "Last Name" } })
-                    @Html.ValidationMessageFor(model => model.lastname, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.bookdate, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.bookdate, new { htmlAttributes = new { @class = "form-control dates", placeholder = "Date" } })
-                    @Html.ValidationMessageFor(model => model.bookdate, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.booktime, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.booktime, new { htmlAttributes = new { @class = "form-control", id = "timepicker", placeholder = "Time" } })
-                    @Html.ValidationMessageFor(model => model.booktime, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email" } })
-                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.phonenumber, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.phonenumber, new { htmlAttributes = new { @class = "form-control", placeholder = "Phone Number" } })
-                    @Html.ValidationMessageFor(model => model.phonenumber, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.comments, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextAreaFor(model => model.comments, new { @class = "form-control", cols = "3" })
-                    @Html.ValidationMessageFor(model => model.comments, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Book Appointment" class="btn btn-primary" />
-                </div>
+    <div class="container">
+        <h4>Schedule Appointment</h4>
+        <b style="color:darkred;"> @ViewBag.Success </b>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.firstname, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.firstname, new { htmlAttributes = new { @class = "form-control", placeholder = "First Name" } })
+                @Html.ValidationMessageFor(model => model.firstname, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            <p class="control-label timing col-md-2"> Time</p>
+            @Html.LabelFor(model => model.lastname, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <select id="time-select"></select>
+                @Html.EditorFor(model => model.lastname, new { htmlAttributes = new { @class = "form-control", placeholder = "Last Name" } })
+                @Html.ValidationMessageFor(model => model.lastname, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <p class="showtime"></p>
+        <div class="form-group">
+            @Html.LabelFor(model => model.bookdate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.bookdate, new { htmlAttributes = new { @class = "form-control dates", placeholder = "Date" } })
+                @Html.ValidationMessageFor(model => model.bookdate, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.booktime, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.booktime, new { htmlAttributes = new { @class = "form-control", id = "timepicker", placeholder = "Time" } })
+                @Html.ValidationMessageFor(model => model.booktime, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            <p class="control-label timing col-md-2"> Time</p>
+            <div class="col-md-10">
+                <select id="time-select" class="form-control" name="booktime"></select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email" } })
+                @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.phonenumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.phonenumber, new { htmlAttributes = new { @class = "form-control", placeholder = "Phone Number" } })
+                @Html.ValidationMessageFor(model => model.phonenumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.comments, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.comments, new { @class = "form-control", cols = "3" })
+                @Html.ValidationMessageFor(model => model.comments, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Book Appointment" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
     }
 
 </div>
@@ -127,42 +133,7 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
-            var breakTime = ["01:00", "02:00"];
-            var unavailableDates;
             var unavailableTime = [];
-            var useddate = [];
-            var selectedDate;
-
-            @*$.post("@Url.Action("GetAvailableDate", "Clm_Booking")", function (data) {
-                // date gotten from the back
-                var date = data.dates;
-                selectedDate = $(".dates").change();
-                //console.log(selectedDate);
-
-                //loop through all date to format them
-                for (var i = 0; i < date.length; i++) {
-                    unavailableDates = ToJavaScriptDate(date[i]);
-                    //console.log(unavailableDates);
-
-                    if (selectedDate == unavailableDates) {
-                        console.log("Date not available" + " " +unavailableDates);
-                    }
-                }
-
-                // This for changing the Data format from Back-side to Client side for Javascript
-                function ToJavaScriptDate(date) {
-                    var pattern = /Date\(([^)]+)\)/;
-                    var results = pattern.exec(date);
-                    var dt = new Date(parseFloat(results[1]));
-
-                    return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear();
-                }
-
-                // This is the datepicker with callback function
-                 $('.dates').datepicker();
-            });*@
-
-
 
         $(".dates").datepicker({ dateFormat: 'yy-mm-dd' })
                       .on("change", function() {
@@ -196,9 +167,6 @@
                 return (dt.toTimeString());
 
             }
-
-
-
 
 
             var workingTime = ["09:30", "10:00", "10:30", "11:00", "11:30", "12:00","12:30","01:00","03:00","03:30","04:00","04:30","05:00"];
@@ -237,6 +205,7 @@
                     select.appendChild(option);
                 }
             }
+            appendOptions(workingTime);
 
             function showAvailableTime(bookedTime) {
                 const workingTimeCopy = [...workingTime];
