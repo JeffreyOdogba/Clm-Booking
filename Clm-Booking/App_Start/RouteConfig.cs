@@ -11,10 +11,18 @@ namespace Clm_Booking
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
+            routes.MapMvcAttributeRoutes();
+
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "ClmWorld",
+               name: "PreviousBooking",
+               url: "{controller}/{action}/{searchClient}",
+               defaults: new { controller = "AdminManage", action = "PreviousBooking", id = UrlParameter.Optional }
+           );
+
+            routes.MapRoute(
+                name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Clm_Booking", action = "Index", id = UrlParameter.Optional }
             );
@@ -22,7 +30,7 @@ namespace Clm_Booking
             routes.MapRoute(
                 name: "Bookings",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "AdminManage", action = "Bookings", id = UrlParameter.Optional }
+                defaults: new { controller = "Admin", action = "Login", id = UrlParameter.Optional }
             );
         }
     }

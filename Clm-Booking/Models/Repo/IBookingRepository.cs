@@ -15,6 +15,8 @@ namespace Clm_Booking.Models
         void DeleteBooking(int ClientId);
         void Save();
         void UpdateAdmin(AdminClm adminClm);
+
+       List<ClientClm> SearchClients(String clients);
         
     }
 }

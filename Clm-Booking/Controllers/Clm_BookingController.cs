@@ -35,6 +35,7 @@ namespace Clm_Booking.Controllers
         {
             if (client != null)
             {
+               
                 try
                 {
                     if (bookingRepository.GetClients().Any(c => c.bookdate == client.bookdate && c.booktime == client.booktime))
@@ -62,6 +63,7 @@ namespace Clm_Booking.Controllers
                 ViewBag.Success = "Oops, something is wrong!!! Contact Admin";
                 return RedirectToAction("Open_Book");
             }
+            ModelState.Clear();
             return View();
 
         }

@@ -9,10 +9,14 @@
     }
 
 }
+<div style="text-align:center;">
+    <h2>Current Schedules</h2>
+</div>
 
-<h2>Current Schedules</h2>
+<p style="font-size:1.4em; margin:10px;">
+    @Html.ActionLink("View Previous Schedules", "PreviousBooking")
+</p>
 
-@Html.ActionLink("View Previous Schedules", "PreviousBooking", null, new { @class = "btn btn-default", style="color:red; font-weight:700;"})
 
 <div class="container-fluid">
     <table class="table">

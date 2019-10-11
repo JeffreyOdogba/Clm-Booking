@@ -15,6 +15,7 @@ namespace Clm_Booking.Models
 
         [Required]
         [Display(Name ="Password")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
     }
 }

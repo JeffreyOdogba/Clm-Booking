@@ -25,17 +25,44 @@ namespace Clm_Booking.Controllers
         {
             var bookings = from c in repository.GetClients()
                            where c.status.Contains("Awaiting")
+                           orderby c.bookdate
                            select c;
 
             return View(bookings);
         }
-        
+
+
+        //public ActionResult PreviousBooking()
+        //{
+
+        //    //from p in repository.GetClients()
+        //    //where p.status.Contains("Appointment Done")
+        //    //select p;
+
+           
+        //}
+
+        [HttpGet]
+        public ActionResult PreviousBooking(string searchClient)
+        {
+            if (String.IsNullOrEmpty(searchClient))
+            {
+                var previousBooking = db.ClientClms.Where(c => c.status.Contains("Appointment Done"));
+                return View(previousBooking);
+            }
+            else {
+                List<ClientClm> SearchedClients = repository.SearchClients(searchClient);
+                return View(SearchedClients);
+            }
+        }
+
+
         /// <summary>
         /// This a Button for Accept Booking
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        
+
         public ActionResult CompleteBooking(int id)
         {
             ClientClm client = new ClientClm();
@@ -52,12 +79,7 @@ namespace Clm_Booking.Controllers
             return RedirectToAction("Bookings");
         }
 
-        public ActionResult PreviousBooking()
-        {
-            var previousBooking = from p in repository.GetClients() 
-                                  where p.status.Contains("Appointment Done")
-                                  select p;
-            return View(previousBooking);
-        }
+        
+      
     }
 }

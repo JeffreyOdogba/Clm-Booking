@@ -24,12 +24,14 @@ namespace Clm_Booking.Models
 
         [Required]
         [Column(TypeName = "date")]
+        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         [Display(Name = "Date")]
-        public DateTime? bookdate { get; set; }
+        public DateTime bookdate { get; set; }
 
         [Required]
+        [DisplayFormat(DataFormatString = "{0:t}", ApplyFormatInEditMode = true)]
         [Display(Name = "Time")]
-        public DateTime? booktime { get; set; }
+        public DateTime booktime { get; set; }
 
         [Required]
         [StringLength(100)]
@@ -43,6 +45,7 @@ namespace Clm_Booking.Models
 
         [Required]
         [StringLength(255)]
+        [MaxLength(80)]
         [Display(Name = "Comment/Reason")]
         public string comments { get; set; }
 

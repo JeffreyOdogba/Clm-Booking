@@ -52,6 +52,21 @@ namespace Clm_Booking.Models
             db.SaveChanges();
         }
 
+        public List<ClientClm> SearchClients(string searchedClients)
+        {
+            List<ClientClm> returnedClients = new List<ClientClm>();
+
+            if (!String.IsNullOrEmpty(searchedClients))
+            {
+                returnedClients = db.ClientClms.Where(c => c.firstname.Contains(searchedClients) ||
+                c.lastname.Contains(searchedClients) ||
+                c.phonenumber.Contains(searchedClients) ||
+                c.email.Contains(searchedClients)).ToList();
+            }
+
+            return returnedClients;
+        }
+
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 
@@ -87,6 +102,8 @@ namespace Clm_Booking.Models
             // TODO: uncomment the following line if the finalizer is overridden above.
             GC.SuppressFinalize(this);
         }
+
+        
         #endregion
 
     }
