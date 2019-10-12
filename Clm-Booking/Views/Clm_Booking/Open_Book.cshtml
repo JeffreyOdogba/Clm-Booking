@@ -134,8 +134,9 @@
     <script>
         $(document).ready(function () {
             var unavailableTime = [];
+            var dateToday = new Date();
 
-        $(".dates").datepicker({ dateFormat: 'yy-mm-dd' })
+        $(".dates").datepicker({ dateFormat: 'yy/mm/dd', minDate:dateToday })
                       .on("change", function() {
                           // get date value
                           var datetime = $(".dates").datepicker().val();

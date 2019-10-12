@@ -1,4 +1,5 @@
 ﻿using Clm_Booking.Models;
+using Clm_Booking.Utils;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace Clm_Booking.Controllers
     {
         private IBookingRepository bookingRepository;
         private ClmEntity db = new ClmEntity();
+        EmailService emailService = new EmailService();
         
         public Clm_BookingController()
         {
@@ -44,9 +46,13 @@ namespace Clm_Booking.Controllers
                     }
                     else
                     {
+
                         client.status = "Awaiting";
+                        emailService.SendEmailToClient(client);
                         bookingRepository.AddBooking(client);
                         bookingRepository.Save();
+
+                       
 
                         ViewBag.Success = "Booking added.";
                     }
