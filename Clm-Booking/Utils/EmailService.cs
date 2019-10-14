@@ -35,11 +35,11 @@ namespace Clm_Booking.Utils
                     client.EnableSsl = true;
                     client.Host = "smtp.gmail.com";
                     client.Port = 587;
-                    client.Credentials = new NetworkCredential("jeffodogba@gmail.com", "jeffreyodogba1994");
+                    client.Credentials = new NetworkCredential("clmappointment@gmail.com", "Covenant95");
 
                     MailMessage mailMessage = new MailMessage();
 
-                    mailMessage.From = new MailAddress("jeffodogba@gmail.com", "Clm Booking");
+                    mailMessage.From = new MailAddress("clmappointment@gmail.com", "Clm Booking");
                     mailMessage.To.Add(clientInfo.email);
                     mailMessage.Subject = "Clm Booking Receipt";
                     mailMessage.IsBodyHtml = true;
