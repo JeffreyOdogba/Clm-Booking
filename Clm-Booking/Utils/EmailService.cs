@@ -48,7 +48,7 @@ namespace Clm_Booking.Utils
                     client.Send(mailMessage);
                     client.Dispose();
                 }
-                return flag;
+                return flag;    
             }
             catch (Exception)
             {
