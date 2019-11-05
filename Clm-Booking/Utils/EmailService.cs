@@ -13,10 +13,12 @@ namespace Clm_Booking.Utils
         public bool SendEmailToClient(ClientClm clientInfo) {
             bool flag;
 
-           
+            var time =clientInfo.booktime.ToString("hh:mm");
+
+
 
             var msgIntro = $"<p>Hi {clientInfo.firstname},</p>";
-            var msgBody = $"<div style='font-size:20px; font-weight:500;'> </div><p>Your appointment is scheduled for <span style='color:red; font-weight:600;'> {clientInfo.bookdate.DayOfWeek} {clientInfo.bookdate.ToString("yyyy/MM/dd")}</span> and <span style='color:red; font-weight:600;'> {clientInfo.booktime.ToShortTimeString()}.</span><br/></p>";
+            var msgBody = $"<div style='font-size:20px; font-weight:500;'> </div><p>Your appointment is scheduled for <span style='color:red; font-weight:600;'> {clientInfo.bookdate.DayOfWeek} {clientInfo.bookdate.ToString("yyyy/MM/dd")}</span> and <span style='color:red; font-weight:600;'> {time}.</span><br/></p>";
             var footer = "Regards, <br/>See you later!! <br/><p>Covenant Life Ministries</p>";
             var finalEdit = $"<div style='border:1px solid gray; margin-left: auto; margin-right: auto; border-radius: 20px; width:600px; text-align:center;'> " +
                 $"<h4> Clm Booking </h4>" +
