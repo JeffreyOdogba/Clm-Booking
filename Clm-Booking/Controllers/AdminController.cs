@@ -69,8 +69,12 @@ namespace Clm_Booking.Controllers
                     }
                     else
                     {
-                        TempData["Msg"] = "Invalid Email or Password";                        
-                    }                   
+                        ViewBag.Msg = "Invalid Password";                        
+                    }
+                }
+                else
+                {
+                    ViewBag.Msg = "Invalid Email or Password";
                 }                
             }           
             return View();
